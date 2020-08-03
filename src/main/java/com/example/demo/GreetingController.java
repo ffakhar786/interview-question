@@ -9,6 +9,8 @@ public class GreetingController {
 
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name) {
+    	if("David".equals(name)) 
+    		return "Hello World";
         return "greeting " + name;
     }
 

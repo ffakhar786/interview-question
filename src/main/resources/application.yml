@@ -3,11 +3,13 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:tcp://localhost/~/test
+#    url: jdbc:h2:mem:testdb
 #    url: jdbc:h2:file:./demo
     driverClassName: org.h2.Driver
     username: sa
-    password: password
+    password:
+#    password: password
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
@@ -16,5 +18,5 @@ spring:
       ddl-auto: update
   h2:
     console:
-      enabled: false
+      enabled: true
 
