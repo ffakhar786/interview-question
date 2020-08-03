@@ -21,7 +21,7 @@ import com.google.common.collect.HashBiMap;
  * @author Fakhar Mumtaz
  * @version 1.0
  * @since 1.0
-*/
+ */
 @Service
 public class QueryStringService {
 	Logger logger = LogManager.getLogger(QueryStringService.class);
@@ -64,8 +64,8 @@ public class QueryStringService {
 			obj.setUrlHashcode(new Long(url.hashCode())); 
 			obj.setUrlOriginal(url);
 			obj.setCreatedDatetime(new Timestamp(new Date().getTime()));
-			  
-			 urlEncodedEntityRepository.save(obj);
+
+			urlEncodedEntityRepository.save(obj);
 		}
 		return tiny;
 	}
@@ -85,13 +85,14 @@ public class QueryStringService {
 			 */
 		}
 		logger.trace(tiny);
-		/*
-		 * UrlEncodedEntity obj = new UrlEncodedEntity(); obj.setUrlEncoded(tiny);
-		 * obj.setUrlHashcode(new Long(url.hashCode())); obj.setUrlOriginal(url);
-		 * obj.setCreatedDatetime(new Timestamp(new Date().getTime()));
-		 * 
-		 * urlEncodedEntityRepository.save(obj);
-		 */
+
+		UrlEncodedEntity obj = new UrlEncodedEntity(); 
+		obj.setUrlEncoded(tiny);
+		obj.setUrlHashcode(new Long(url.hashCode())); 
+		obj.setUrlOriginal(url);
+		obj.setCreatedDatetime(new Timestamp(new Date().getTime()));
+
+		urlEncodedEntityRepository.save(obj);
 		return tiny;
 	}
 
@@ -111,7 +112,7 @@ public class QueryStringService {
 				s = s.substring(0, s.length() - 1);
 			}
 			encodingBiMapper.put(key, s);
-			System.out.println("key=" + key + ", " + s);
+			logger.trace("key=" + key + ", " + s);
 			i++;
 		}
 	}
@@ -139,7 +140,7 @@ public class QueryStringService {
 		}
 		return sBuilder;
 	}
-	
+
 
 	public String decodeUrlBase64(String tiny) {
 		String url = "tiny Url is null";
