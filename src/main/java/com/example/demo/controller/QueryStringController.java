@@ -21,6 +21,9 @@ public class QueryStringController {
 	@Autowired
 	private QueryStringService queryStringService;
 	
+	/** Gets encodes the URL .
+	 * @return string representing the original URL 
+	*/
 	@GetMapping("/short")
 	@ResponseBody
     public String encodeQueryString(@RequestParam(name = "url", required = true, defaultValue = "https://stash.backbase.com/projects/PO/repos/payment-order-integration-spec/browse/src/main/resources/schemas/definitions.json#38") String url) {
@@ -31,6 +34,9 @@ public class QueryStringController {
         return tinyStr;
     }
 	
+	/** Gets decodes the encoded URL representation 
+	 * @return string the original URL 
+	*/
 	@GetMapping("/long")
     public String decodeQueryString(@RequestParam(name = "tiny") String tiny) {
     	String url = "";

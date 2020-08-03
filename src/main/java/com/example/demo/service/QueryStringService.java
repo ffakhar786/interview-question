@@ -17,7 +17,11 @@ import com.example.demo.persistence.UrlEncodedEntity;
 import com.example.demo.persistence.UrlEncodedEntityRepository;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-
+/** Represents a QueryString URL Service.
+ * @author Fakhar Mumtaz
+ * @version 1.0
+ * @since 1.0
+*/
 @Service
 public class QueryStringService {
 	Logger logger = LogManager.getLogger(QueryStringService.class);
@@ -150,7 +154,7 @@ public class QueryStringService {
 	public Integer runScheduler() {
 		logger.info("Scheduler is running to delete the older records... ");
 		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MINUTE, -5);
+		cal.add(Calendar.MINUTE, -30);
 
 		java.sql.Date thiryMinutesBefore = new java.sql.Date(cal.getTimeInMillis());
 

@@ -28,8 +28,10 @@ public class QueryStringScheduler {
 	@Autowired
 	private QueryStringService queryStringService;
 	
-	//@Scheduled(cron = "0 30 * * * ?")
-	@Scheduled(fixedDelay = 1000 * 60 * 3) 
+	/**  executes the scheduler at the specified number of milliseconds
+	 * @return  it returns void 
+	*/
+	@Scheduled(fixedDelay = 1001 * 60 * 30) 
 	public void execute() {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		String runDateformate = df.format(new Date());
