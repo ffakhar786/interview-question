@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UrlEncodedEntityRepository extends JpaRepository<UrlEncodedEntity, Integer>{
-	public UrlEncodedEntity findByUrlEncoded(String urlEncoded);
+	
+	@Query("SELECT m FROM UrlEncodedEntity m WHERE m.urlEncoded = :urlTiny and rownum <= 1")
+	public UrlEncodedEntity findByUrlEncoded(@Param("urlTiny") String urlEncoded);
 	@Modifying
     @Transactional
     @Query("DELETE FROM UrlEncodedEntity m WHERE m.createdDatetime < :minutes")
