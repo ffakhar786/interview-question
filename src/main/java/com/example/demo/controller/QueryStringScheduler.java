@@ -14,11 +14,16 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.service.QueryStringService;
 
+/** Represents a QueryString Controller.
+ * @author Fakhar Mumtaz
+ * @version 1.0
+ * @since 1.0
+*/
 @EnableScheduling
 @Component
 @Configuration
-public class QueryStringControllerScheduler {
-	Logger logger = LogManager.getLogger(QueryStringControllerScheduler.class);
+public class QueryStringScheduler {
+	Logger logger = LogManager.getLogger(QueryStringScheduler.class);
 	
 	@Autowired
 	private QueryStringService queryStringService;
@@ -29,7 +34,7 @@ public class QueryStringControllerScheduler {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		String runDateformate = df.format(new Date());
 		logger.info("schedule is running ......." + runDateformate);
-		int numberOfRecordsDeleted = queryStringService.runScheduler();
+		Integer numberOfRecordsDeleted = queryStringService.runScheduler();
 		logger.info("numberOfRecordsDeleted = " + numberOfRecordsDeleted);
 	}
 }

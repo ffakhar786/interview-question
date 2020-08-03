@@ -147,15 +147,15 @@ public class QueryStringService {
 		return url;
 	}
 
-	public int runScheduler() {
+	public Integer runScheduler() {
 		logger.info("Scheduler is running to delete the older records... ");
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MINUTE, -5);
 
 		java.sql.Date thiryMinutesBefore = new java.sql.Date(cal.getTimeInMillis());
 
-		int res = urlEncodedEntityRepository.removeOlderThan(thiryMinutesBefore);
-		return res;
+		Integer numOfRecords = urlEncodedEntityRepository.removeOlderThan(thiryMinutesBefore);
+		return numOfRecords;
 	}
 
 }

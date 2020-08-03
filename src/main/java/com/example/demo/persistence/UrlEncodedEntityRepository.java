@@ -15,5 +15,5 @@ public interface UrlEncodedEntityRepository extends JpaRepository<UrlEncodedEnti
 	@Modifying
     @Transactional
     @Query("DELETE FROM UrlEncodedEntity m WHERE m.createdDatetime < :minutes")
-    int removeOlderThan(@Param("minutes") Date date);
+    Integer removeOlderThan(@Param("minutes") Date date);
 }

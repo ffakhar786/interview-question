@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.service.QueryStringService;
-
+/** Represents a QueryString URL Controller.
+ * @author Fakhar Mumtaz
+ * @version 1.0
+ * @since 1.0
+*/
 @RestController
 public class QueryStringController {
 	Logger logger = LogManager.getLogger(QueryStringController.class);
