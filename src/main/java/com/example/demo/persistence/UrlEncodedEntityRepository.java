@@ -1,5 +1,7 @@
 package com.example.demo.persistence;
 
+import java.sql.Date;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,5 +15,5 @@ public interface UrlEncodedEntityRepository extends JpaRepository<UrlEncodedEnti
 	@Modifying
     @Transactional
     @Query("DELETE FROM UrlEncodedEntity m WHERE m.createdDatetime < :minutes")
-    int removeOlderThan(@Param("minutes") java.sql.Date date);
+    int removeOlderThan(@Param("minutes") Date date);
 }

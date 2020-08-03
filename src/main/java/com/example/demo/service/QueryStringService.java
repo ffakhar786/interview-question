@@ -1,15 +1,18 @@
 package com.example.demo.service;
 
 import java.sql.Timestamp;
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Base64.Encoder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.persistence.EncodingMapperEntity;
-import com.example.demo.persistence.EncodingMapperEntityRepository;
 import com.example.demo.persistence.UrlEncodedEntity;
 import com.example.demo.persistence.UrlEncodedEntityRepository;
 import com.google.common.collect.BiMap;
@@ -17,11 +20,14 @@ import com.google.common.collect.HashBiMap;
 
 @Service
 public class QueryStringService {
+	Logger logger = LogManager.getLogger(QueryStringService.class);
 	private BiMap<String, String> keyBiMap = HashBiMap.create();
 	private BiMap<String, String> encodingBiMapper = HashBiMap.create();
 
-	@Autowired
-	private EncodingMapperEntityRepository encodingMapperEntityRepository;
+	/*
+	 * @Autowired private EncodingMapperEntityRepository
+	 * encodingMapperEntityRepository;
+	 */
 	@Autowired
 	private UrlEncodedEntityRepository urlEncodedEntityRepository;
 
@@ -44,27 +50,44 @@ public class QueryStringService {
 		keyBiMap.put("A16", "P");
 	}
 
+	public String encodeUrlBase64(String url) {
+		String tiny = "please check url";
+		Encoder encoder = Base64.getEncoder();
+		if (url != null && url.length() > 0) {
+			tiny = encoder.encodeToString(url.getBytes());
+			UrlEncodedEntity obj = new UrlEncodedEntity(); 
+			obj.setUrlEncoded(tiny);
+			obj.setUrlHashcode(new Long(url.hashCode())); 
+			obj.setUrlOriginal(url);
+			obj.setCreatedDatetime(new Timestamp(new Date().getTime()));
+			  
+			 urlEncodedEntityRepository.save(obj);
+		}
+		return tiny;
+	}
+
 	public String encodeQueryStringUrl(String url) {
+		encodingBiMapper = HashBiMap.create();
 		encodeUrl(url);
 		Set<String> keyS = encodingBiMapper.keySet();
 		String tiny = "";
 		for (String s : keyS) {
 			String tmp = keyBiMap.get(s);
 			tiny += tmp;
-			EncodingMapperEntity entity = new EncodingMapperEntity();
-			entity.setKey(s);
-			entity.setValue(tmp);
-			entity.setHashcode(new Long(url.hashCode()));
-			encodingMapperEntityRepository.save(entity);
+			/*
+			 * EncodingMapperEntity entity = new EncodingMapperEntity(); entity.setKey(s);
+			 * entity.setValue(tmp); entity.setHashcode(new Long(url.hashCode()));
+			 * encodingMapperEntityRepository.save(entity);
+			 */
 		}
 		System.out.println(tiny);
-		UrlEncodedEntity obj = new UrlEncodedEntity();
-		obj.setUrlEncoded(tiny);
-		obj.setUrlHashcode(new Long(url.hashCode()));
-		obj.setUrlOriginal(url);
-		obj.setCreatedDatetime(new Timestamp(new Date().getTime()));
-
-		urlEncodedEntityRepository.save(obj);
+		/*
+		 * UrlEncodedEntity obj = new UrlEncodedEntity(); obj.setUrlEncoded(tiny);
+		 * obj.setUrlHashcode(new Long(url.hashCode())); obj.setUrlOriginal(url);
+		 * obj.setCreatedDatetime(new Timestamp(new Date().getTime()));
+		 * 
+		 * urlEncodedEntityRepository.save(obj);
+		 */
 		return tiny;
 	}
 
@@ -112,13 +135,27 @@ public class QueryStringService {
 		}
 		return sBuilder;
 	}
+	
 
-	public void runScheduler() {
+	public String decodeUrlBase64(String tiny) {
+		String url = "tiny Url is null";
+		Decoder decoder = Base64.getDecoder();
+		if(tiny!=null && tiny.length()>0) {
+			byte[] decBytes = decoder.decode(tiny);
+			url = new String(decBytes);
+		}
+		return url;
+	}
+
+	public int runScheduler() {
+		logger.info("Scheduler is running to delete the older records... ");
 		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MINUTE, -15);
+		cal.add(Calendar.MINUTE, -5);
 
 		java.sql.Date thiryMinutesBefore = new java.sql.Date(cal.getTimeInMillis());
 
-		urlEncodedEntityRepository.removeOlderThan(thiryMinutesBefore);
+		int res = urlEncodedEntityRepository.removeOlderThan(thiryMinutesBefore);
+		return res;
 	}
+
 }
