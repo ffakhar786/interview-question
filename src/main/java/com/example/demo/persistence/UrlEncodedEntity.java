@@ -32,5 +32,3 @@ public class UrlEncodedEntity {
 	private Timestamp createdDatetime;
 	
 }
-
-

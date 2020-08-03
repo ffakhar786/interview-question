@@ -84,7 +84,7 @@ public class QueryStringService {
 			 * encodingMapperEntityRepository.save(entity);
 			 */
 		}
-		System.out.println(tiny);
+		logger.trace(tiny);
 		/*
 		 * UrlEncodedEntity obj = new UrlEncodedEntity(); obj.setUrlEncoded(tiny);
 		 * obj.setUrlHashcode(new Long(url.hashCode())); obj.setUrlOriginal(url);
@@ -127,10 +127,10 @@ public class QueryStringService {
 				sBuilder += token;
 			}
 
-			System.out.println(sBuilder);
+			logger.trace(sBuilder);
 
 		} else {
-			System.out.println("go to db, tiny = " + tiny);
+			// please fetch from DB now
 			if (tiny != null && tiny.length() > 0) {
 				UrlEncodedEntity dbObj = urlEncodedEntityRepository.findByUrlEncoded(tiny);
 				if (dbObj != null)
